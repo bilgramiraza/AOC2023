@@ -1,3 +1,6 @@
+const fs = require('fs');
+const { performance } = require('perf_hooks');
+
 let numbersHashmap = {
   'one':1,
   'two':2,
@@ -75,15 +78,15 @@ function numberExtractor(str){
   return (firstNumber*10)+lastNumber;
 }
 
-const fs = require('fs');
-const { performance } = require('perf_hooks');
 fs.readFile('text', 'utf8', (err, data)=>{
   if(err) throw err;
-  const lines = data.toString().split('\n');let startTime = performance.now();
+  let startTime = performance.now();
+  const lines = data.toString().split('\n');
   let sum = lines.reduce((total, curr) =>{
     if(curr === '')return total;
     return total+numberExtractor(curr);
-  },0); let endTime = performance.now();
+  },0);
+  let endTime = performance.now();
   console.log('sum: ', sum);
   console.log('runtime: ',endTime-startTime, 'ms');
 });
